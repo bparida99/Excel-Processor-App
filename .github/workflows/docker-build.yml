@@ -1,0 +1,38 @@
+name: Build and Deploy Docker Image to Azure Container Registry
+
+on:
+  push:
+    branches:
+      - main # Adjust to your default branch or other branches you want to trigger the workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21' # Specify the Java version your project uses
+          distribution: 'temurin' # You can choose between 'adoptopenjdk', 'zulu', etc.
+
+      - name: Build with Maven
+        run: mvn clean install # Adjust if you're using Gradle or a different build tool
+
+      - name: Log in to Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure Container Registry Login
+        run: |
+          az acr login --name ${{ secrets.ACR_NAME }}
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.ACR_NAME }}.azurecr.io/my-image:latest .
+
+      - name: Push Docker image to Azure Container Registry
+        run: docker push ${{ secrets.ACR_NAME }}.azurecr.io/my-image:latest

@@ -1,3 +1,3 @@
-# Excel-Processor-App
-Docker
-Spring batch
+This project includes 
+-spring batch 
+-docker

@@ -3,7 +3,7 @@ name: Build and Deploy Docker Image to Azure Container Registry
 on:
   push:
     branches:
-      - main # Adjust to your default branch or other branches you want to trigger the workflow
+      - azure-app-service-with-acr # Adjust to your default branch or other branches you want to trigger the workflow
 
 jobs:
   build:

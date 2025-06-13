@@ -25,6 +25,9 @@ jobs:
       - name: Log in to Azure Container Registry (ACR)
         run: echo "${{ secrets.ACR_PASSWORD }}" | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
 
+      - name: Set image tag
+        run: echo "IMAGE_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
       - name: Build Docker image
         run: docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/excel-processor:${{ env.IMAGE_TAG }} .
 

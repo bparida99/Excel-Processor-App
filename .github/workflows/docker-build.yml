@@ -30,3 +30,4 @@ jobs:
 
       - name: Push Docker image to Azure Container Registry
         run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/my-image:latest
+ 
